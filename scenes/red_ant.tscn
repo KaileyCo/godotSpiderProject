@@ -5,7 +5,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hbyvu"]
 size = Vector2(11.600002, 8.000001)
 
-[node name="Ant" type="Node2D" unique_id=1580937384]
+[node name="Ant" type="CharacterBody2D" unique_id=305079769]
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=584112176]
 texture_filter = 1

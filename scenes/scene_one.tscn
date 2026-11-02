@@ -1,8 +1,11 @@
 [gd_scene format=3 uid="uid://bb2m7bb24i48y"]
 
 [ext_resource type="PackedScene" uid="uid://dle8bmk2ftx0e" path="res://player/player_2d.tscn" id="1_11pc1"]
+[ext_resource type="PackedScene" uid="uid://d1pprs3ii0fpq" path="res://menu/main.tscn" id="2_8k15v"]
 [ext_resource type="AudioStream" uid="uid://c5yb72ufw3txt" path="res://audio/Spider Dance - Toby Fox.ogg" id="2_lafl4"]
+[ext_resource type="PackedScene" uid="uid://mbhif8marjjc" path="res://menu/settings_menu.tscn" id="3_hswmj"]
 [ext_resource type="PackedScene" uid="uid://c2t40syx1rirk" path="res://scenes/red_ant.tscn" id="3_natno"]
+[ext_resource type="PackedScene" uid="uid://bsgdiebp8bf8g" path="res://menu/pause_menu.tscn" id="4_14uy7"]
 [ext_resource type="PackedScene" uid="uid://b20yahn7avxgp" path="res://health-system-test/health_system_test.tscn" id="4_d7pav"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_11pc1"]
@@ -34,6 +37,24 @@ size = Vector2(40, 644.5)
 [node name="Player" parent="." unique_id=1177396484 instance=ExtResource("1_11pc1")]
 position = Vector2(298, 390)
 scale = Vector2(0.5, 0.5)
+
+[node name="Main" parent="Player" unique_id=1313088082 instance=ExtResource("2_8k15v")]
+position = Vector2(-626, -658)
+scale = Vector2(2, 2)
+
+[node name="SettingsMenu2" parent="Player/Main" unique_id=1018642758 instance=ExtResource("3_hswmj")]
+visible = false
+offset_left = -319.0
+offset_top = -391.0
+offset_right = -319.0
+offset_bottom = -391.0
+
+[node name="PauseMenu2" parent="Player/Main" unique_id=1199802062 instance=ExtResource("4_14uy7")]
+visible = false
+offset_left = -368.0
+offset_top = -393.0
+offset_right = -368.0
+offset_bottom = -393.0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=141199382]
 stream = ExtResource("2_lafl4")

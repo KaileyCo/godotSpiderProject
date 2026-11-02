@@ -37,6 +37,11 @@ const SWING_MAX_SPEED = 1200.0
 
 enum GrappleState {IDLE,FIRING,RETRACTING,PULLING,SWINGING}
 
+##Attack Variables##
+const DASH_DURATION_ATT = 0.10
+#is the character attacking
+var is_attacking = false
+
 # Initialized player values
 var facing_direction: float = 1.0 # Direction player faces (-1: left and 1: right)
 var dash_direction: float = 1.0  # Direction player dashes
@@ -72,6 +77,11 @@ func _physics_process(delta: float) -> void:
 	# You can only dash once in the air, resets on floor
 	if is_on_floor():
 		air_dash_available = true
+
+	if Input.is_action_just_pressed("Attack") and !is_attacking:
+		handle_bite(true)
+	if is_attacking:
+		handle_bite(false)
 
 	# Count down the wall-jump control delay.
 	if wall_jump_control_time > 0:
@@ -141,6 +151,21 @@ func _physics_process(delta: float) -> void:
 			)
 	
 	update_grapple_rope()
+
+#bite attack
+func handle_bite(delta: float) -> void:
+	is_attacking = true
+	velocity.x = facing_direction * DASH_SPEED
+	await get_tree().create_timer(DASH_DURATION_ATT).timeout
+	
+	var overlapping_objects = $attack_area.get_overlapping_areas()
+	for area in overlapping_objects:
+		var parent = area.get_parent()
+		print(parent.name)
+		parent.queue_free()
+	
+	velocity.x = 0
+	is_attacking = false
 
 func create_afterimage() -> void:
 	var afterimage := AFTERIMAGE_SCENE.instantiate() as Sprite2D
