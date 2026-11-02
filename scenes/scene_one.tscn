@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://dle8bmk2ftx0e" path="res://player/player_2d.tscn" id="1_11pc1"]
 [ext_resource type="AudioStream" uid="uid://c5yb72ufw3txt" path="res://audio/Spider Dance - Toby Fox.ogg" id="2_lafl4"]
 [ext_resource type="PackedScene" uid="uid://c2t40syx1rirk" path="res://scenes/red_ant.tscn" id="3_natno"]
+[ext_resource type="PackedScene" uid="uid://b20yahn7avxgp" path="res://health-system-test/health_system_test.tscn" id="4_d7pav"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_11pc1"]
 
@@ -150,3 +151,5 @@ texture = SubResource("CanvasTexture_cop04")
 
 [node name="Ant" parent="." unique_id=39960068 instance=ExtResource("3_natno")]
 position = Vector2(726, 586)
+
+[node name="HealthSystemTest" parent="Ant" unique_id=1780397486 instance=ExtResource("4_d7pav")]
