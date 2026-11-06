@@ -37,14 +37,11 @@ const GRAPPLE_ARRIVAL_DISTANCE = 0
 const SWING_INPUT_ACCELERATION = 800.0
 const SWING_MAX_SPEED = 1200.0
 
-<<<<<<< Updated upstream
-enum GrappleState {IDLE,FIRING,PULLING,SWINGING}
-=======
 # The different states the grapple can be in
 # IDLE = Not in use, FIRING = grapple is being shot, RETRACTING = grapple misses and comes back to player
 # PULLING = grapple hits and pulls player, SWINGING = grapple hits and player hangs on grapple without being pulled
 enum GrappleState {IDLE,FIRING,RETRACTING,PULLING,SWINGING}
->>>>>>> Stashed changes
+
 
 ##Attack Variables##
 const DASH_DURATION_ATT = 0.10
