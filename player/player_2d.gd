@@ -7,7 +7,7 @@ const JUMP_VELOCITY = -400.0  # Power of the jump (negative y means up in godot)
 # How quickly players reaches top speed or stops
 # Time to reach top speed or stop: (Speed / Accel or Deccel)
 const ACCELERATION = 2400.0
-const DECELERATION = 2500.0
+const DECELERATION = 2500.0 # Also used when grappling
 
 const DASH_SPEED = 700.0   # How fast the dash is
 const DASH_DURATION = 0.15 # How long the dash lasts
@@ -19,23 +19,32 @@ const WALL_JUMP_HORIZONTAL_SPEED = 350.0 # Horizontal speed of wall jump
 const WALL_JUMP_VERTICAL_SPEED = -400.0 # Vertical speed of wall jump
 const WALL_JUMP_CONTROL_DELAY = 0.012 # How long until player can move after wall jump
 
+# Getting info from the "Afterimage scene" for the dash effect
 const AFTERIMAGE_SCENE: PackedScene = preload(
 	"res://effects/afterimage.tscn"
 )
 
 const AFTERIMAGE_INTERVAL = 0.04
 
-const GRAPPLE_MAX_DISTANCE = 2000.0
-const GRAPPLE_HOOK_SPEED = 3200.0
-const GRAPPLE_PULL_SPEED = 1000.0
+const GRAPPLE_MAX_DISTANCE = 2000.0 # Max distance of the grapple
+const GRAPPLE_HOOK_SPEED = 3200.0 # Speed the grapple shot travels
+const GRAPPLE_PULL_SPEED = 1000.0 # How fast player is pulled
 
 const GRAPPLE_SURFACE_OFFSET = 0
 const GRAPPLE_ARRIVAL_DISTANCE = 0
 
+# Speed values for when player is swinging
 const SWING_INPUT_ACCELERATION = 800.0
 const SWING_MAX_SPEED = 1200.0
 
+<<<<<<< Updated upstream
 enum GrappleState {IDLE,FIRING,PULLING,SWINGING}
+=======
+# The different states the grapple can be in
+# IDLE = Not in use, FIRING = grapple is being shot, RETRACTING = grapple misses and comes back to player
+# PULLING = grapple hits and pulls player, SWINGING = grapple hits and player hangs on grapple without being pulled
+enum GrappleState {IDLE,FIRING,RETRACTING,PULLING,SWINGING}
+>>>>>>> Stashed changes
 
 ##Attack Variables##
 const DASH_DURATION_ATT = 0.10
@@ -50,13 +59,16 @@ var air_dash_available: bool = true # Tracks if player still has an air dash ava
 
 var wall_jump_control_time: float = 0.0 # For wall jump delay
 
+# Getting info from AnimatedSprite2D node
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 var afterimage_time_remaining: float = 0.0
 
+# Positioning of the "grapple"
 @onready var grapple_origin: Marker2D = $GrappleOrigin
 @onready var grapple_ray: RayCast2D = $GrappleOrigin/GrappleRay
 @onready var grapple_rope: Line2D = $GrappleRope
 
+# Some variables relating to the grapple
 var grapple_state: int = GrappleState.IDLE
 var grapple_hit_point: Vector2
 var grapple_destination: Vector2
@@ -100,6 +112,12 @@ func _physics_process(delta: float) -> void:
 		else:
 			stop_grapple(true)
 	
+	# Allows player to exit grapple using the jump button as well
+	if (Input.is_action_just_pressed("jump") and (grapple_state == GrappleState.PULLING
+		or grapple_state == GrappleState.SWINGING)
+	):
+		stop_grapple(true)
+	
 	# Move the hook while it is being fired.
 	if grapple_state == GrappleState.FIRING:
 		handle_grapple_shot(delta)
@@ -113,7 +131,7 @@ func _physics_process(delta: float) -> void:
 		handle_grapple_pull() # If being pulled by grapple
 	elif grapple_state == GrappleState.SWINGING:
 		handle_grapple_swing(direction, delta) # If swing via grapple
-		update_swing_rotation(delta)
+		update_swing_rotation(delta) # Rotate player sprite accordingly
 	elif dash_time_remaining > 0:
 		handle_dash(delta) # If dashing
 	else:
@@ -168,7 +186,7 @@ func create_afterimage() -> void:
 
 func handle_dash(delta: float) -> void:
 	dash_time_remaining -= delta # Dash time counts down
-	afterimage_time_remaining -= delta
+	afterimage_time_remaining -= delta # Afterimage timer counts down
 
 	velocity.x = dash_direction * DASH_SPEED # Dash speed
 	velocity.y = 0.0 # Not falling or rising
@@ -316,34 +334,41 @@ func handle_grapple_shot(delta: float) -> void:
 	)
 
 func handle_grapple_pull() -> void:
+	# Get distance between player and grapple shot
 	var distance_to_destination := global_position.distance_to(
 		grapple_destination
 	)
 
+	# If Arrival Distance is reached, stop pulling (set to zero so it doesn't stop currently)
 	if distance_to_destination <= GRAPPLE_ARRIVAL_DISTANCE:
 		stop_grapple()
 		return
 
+	# Finding direction of the grapple shot
 	var pull_direction := global_position.direction_to(
 		grapple_destination
 	)
 
-	velocity = pull_direction * GRAPPLE_PULL_SPEED
+	velocity = pull_direction * GRAPPLE_PULL_SPEED # Speed with which the player is pulled
 
 func stop_grapple(preserve_velocity: bool = false) -> void:
-	grapple_state = GrappleState.IDLE
-	grapple_rope.hide()
+	grapple_state = GrappleState.IDLE # Back to IDLE state
+	grapple_rope.hide() # Grapple no longer visible
 	
 	# Character sprite no longer rotated
 	animated_sprite.rotation = 0.0
 
+	# Incase player didn't want to preserve velocity
+	# Variable currently set to true, so it's not called
 	if not preserve_velocity:
 		velocity = Vector2.ZERO
 
 func update_grapple_rope() -> void:
+	# Stop if not grappling
 	if grapple_state == GrappleState.IDLE:
 		return
 
+	# Handles the two points of the grapple rope (starting point and "hook" destination)
 	grapple_rope.points = PackedVector2Array([
 		grapple_rope.to_local(grapple_origin.global_position),
 		grapple_rope.to_local(hook_position)
