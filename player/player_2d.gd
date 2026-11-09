@@ -81,6 +81,9 @@ func _physics_process(delta: float) -> void:
 	# Remember the last horizontal direction faced
 	if direction != 0: # input clicked
 		facing_direction = direction # direction updated
+		
+		# Flip the sprite when facing left.
+		animated_sprite.flip_h = direction < 0
 
 	# You can only dash once in the air, resets on floor
 	if is_on_floor():
@@ -274,21 +277,18 @@ func try_start_dash(direction: float) -> void:
 
 func try_start_grapple(should_pull: bool) -> void:
 	# Gets direction based on movement inputs
-	var aim_direction := Input.get_vector(
-		"move_left",
-		"move_right",
-		"move_up",
-		"move_down"
+# Get the mouse's position in the game world.
+	var mouse_position := get_global_mouse_position()
+
+	# Create a normalized direction from the grapple origin
+	# toward the mouse.
+	var aim_direction := grapple_origin.global_position.direction_to(
+		mouse_position
 	)
-	
+			
 	var grapple_origin_offset := (
 	grapple_origin.global_position - global_position
 	)
-
-	# If no direction is held, grapple horizontally toward
-	# the direction the player last faced.
-	if aim_direction == Vector2.ZERO:
-		aim_direction = Vector2(facing_direction, 0.0)
 
 	grapple_ray.target_position = (
 		aim_direction.normalized() * GRAPPLE_MAX_DISTANCE
