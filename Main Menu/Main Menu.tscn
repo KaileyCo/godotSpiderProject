@@ -1,0 +1,82 @@
+[gd_scene format=3 uid="uid://bgw2ny4h45esf"]
+
+[ext_resource type="Script" uid="uid://jncvedqsnv0j" path="res://Main Menu/main_menu.gd" id="1_5ms5j"]
+[ext_resource type="Texture2D" uid="uid://d4fjx4o81316r" path="res://Main Menu/360_F_599720625_N2U8AQzhS5y7llrp2AMAQmKL4B6nWHKT.jpg" id="1_ku1ks"]
+[ext_resource type="PackedScene" uid="uid://mbhif8marjjc" path="res://menu/settings_menu.tscn" id="3_i0jnm"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_icn4t"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2qcgo"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ud6qy"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ffvpu"]
+
+[node name="Main Menu" type="Control" unique_id=1570260100]
+layout_mode = 3
+anchors_preset = 0
+scale = Vector2(0.9214186, 0.903599)
+script = ExtResource("1_5ms5j")
+
+[node name="Panel" type="Panel" parent="." unique_id=426162186]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(47.983013, 27.04637)
+
+[node name="Background Image" type="Sprite2D" parent="Panel" unique_id=1857227902]
+position = Vector2(19.923717, 20.261503)
+scale = Vector2(0.06260968, 0.108095914)
+texture = ExtResource("1_ku1ks")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel" unique_id=1672454750]
+layout_mode = 0
+offset_left = 12.962922
+offset_top = 15.528886
+offset_right = 82.96292
+offset_bottom = 138.5289
+scale = Vector2(0.2085106, 0.20173234)
+theme_override_constants/separation = 15
+
+[node name="Start Button" type="Button" parent="Panel/VBoxContainer" unique_id=697419939]
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_styles/normal = SubResource("StyleBoxFlat_icn4t")
+text = "Start"
+
+[node name="Options button" type="Button" parent="Panel/VBoxContainer" unique_id=1134814908]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_2qcgo")
+text = "Options"
+
+[node name="Exit Button" type="Button" parent="Panel/VBoxContainer" unique_id=369674117]
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_ud6qy")
+text = "Exit
+"
+
+[node name="Label" type="Label" parent="Panel" unique_id=362684132]
+layout_mode = 0
+offset_left = 13.275532
+offset_top = 5.176296
+offset_right = 105.27553
+offset_bottom = 28.176296
+scale = Vector2(0.17597476, 0.3362852)
+theme_override_colors/font_color = Color(0.43321884, 0.002144321, 0.944395, 1)
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ffvpu")
+text = "Spider King "
+
+[node name="SettingsMenu" parent="." unique_id=1018642758 instance=ExtResource("3_i0jnm")]
+visible = false
+layout_mode = 1
+offset_left = -2.1705704
+offset_top = 1.1066856
+offset_right = -2.1705322
+offset_bottom = 1.1066895
+
+[connection signal="pressed" from="Panel/VBoxContainer/Start Button" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Options button" to="." method="_on_options_button_pressed"]
+[connection signal="pressed" from="Panel/VBoxContainer/Exit Button" to="." method="_on_exit_button_pressed"]
