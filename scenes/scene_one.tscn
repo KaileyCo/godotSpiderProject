@@ -58,8 +58,9 @@ offset_bottom = -393.0
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=141199382]
 stream = ExtResource("2_lafl4")
-volume_db = 2.69
+volume_db = -80.0
 autoplay = true
+bus = &"Music"
 
 [node name="Node2D" type="Node2D" parent="." unique_id=695922556]
 

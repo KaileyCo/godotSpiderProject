@@ -12,4 +12,4 @@ func _on_settings_pressed():
 
 
 func _on_exit_pressed():
-	main.PauseMenu()
+	get_tree().quit()
