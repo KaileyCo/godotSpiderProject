@@ -47,6 +47,12 @@ const DASH_DURATION_ATT = 0.10
 #is the character attacking
 var is_attacking = false
 
+##Web Shot Variables##
+var web = preload("res://web_shot.tscn")
+@export var web_speed = 400
+@onready var attack_point = $webAim
+@onready var webstun_cooldown = $WebStunCooldown
+
 # Initialized player values
 var facing_direction: float = 1.0 # Direction player faces (-1: left and 1: right)
 var dash_direction: float = 1.0  # Direction player dashes
@@ -85,7 +91,8 @@ func _physics_process(delta: float) -> void:
 	# You can only dash once in the air, resets on floor
 	if is_on_floor():
 		air_dash_available = true
-
+	
+	#Simple attack code that checks if you are already attacking
 	if Input.is_action_just_pressed("Attack") and !is_attacking:
 		handle_bite(true)
 	if is_attacking:
@@ -140,6 +147,10 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide() # Godot movement, handles collisions
 	
+	##webstun called
+	if Input.is_action_just_pressed("WebStun"):
+		handle_webstun()
+	
 	# Bunch of code to keep grapple length the same when swinging
 	if grapple_state == GrappleState.SWINGING:
 		# Create a vector from the start of the grapple to its collision point
@@ -165,6 +176,22 @@ func _physics_process(delta: float) -> void:
 			)
 	
 	update_grapple_rope()
+
+##Webstun code
+func handle_webstun():
+	if not webstun_cooldown.is_stopped():
+		return
+
+	var webstun = web.instantiate()
+	
+	get_tree().current_scene.add_child(webstun)
+	
+	webstun.global_position = attack_point.global_position
+	var direction = (get_global_mouse_position() - global_position).normalized()
+	webstun.direction = direction
+	webstun.speed = web_speed
+	
+	webstun_cooldown.start()
 
 #bite attack
 func handle_bite(delta: float) -> void:

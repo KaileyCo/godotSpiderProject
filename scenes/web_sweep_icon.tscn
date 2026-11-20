@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://drve3obpdjo60"]
+
+[ext_resource type="Texture2D" uid="uid://b6ci1dhmbcnxq" path="res://assets/webstunicon.png" id="1_0vry5"]
+
+[node name="WebSweepIcon" type="TextureRect" unique_id=1976949980]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1888.0
+offset_bottom = -1048.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_0vry5")
+
+[node name="Sweep" type="TextureProgressBar" parent="." unique_id=933678862]
+modulate = Color(0.14509805, 0.14509805, 0.14509805, 0.8745098)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+fill_mode = 5
+
+[node name="Timer" type="Timer" parent="Sweep" unique_id=734387325]
+one_shot = true
+
+[node name="Counter" type="MarginContainer" parent="." unique_id=1859944707]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_right = 5
+
+[node name="Value" type="Label" parent="Counter" unique_id=410893205]
+layout_mode = 2
+horizontal_alignment = 2
+clip_text = true

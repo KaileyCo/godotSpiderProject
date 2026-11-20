@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b20yahn7avxgp"]
 
-[ext_resource type="Script" uid="uid://4b4qvei6gfig" path="res://health-system-test/health_system_test.gd" id="1_l4oul"]
-[ext_resource type="Script" uid="uid://bx1ttnk5y50ok" path="res://health-system-test/health.gd" id="1_nj0oi"]
+[ext_resource type="Script" uid="uid://cllynqmkj1o5j" path="res://health-system-test/health_system_test.gd" id="1_l4oul"]
+[ext_resource type="Script" uid="uid://bya46qd61l2o8" path="res://health-system-test/health.gd" id="1_nj0oi"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l4oul"]
 bg_color = Color(0.32156864, 0.83137256, 0.2901961, 1)
